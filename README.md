@@ -85,4 +85,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. The MIT License is a permissive license that allows for reuse with few restrictions. It permits anyone to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software.
+
+While a separate LICENSE file is not yet included in the repository, this software is released under MIT license terms.
