@@ -35,6 +35,16 @@ This toolkit currently includes:
 
 2. Install the required dependencies:
    ```bash
+   pip install pika
+   ```
+
+   Alternatively, you can create a `requirements.txt` file with the following content:
+   ```
+   pika>=1.2.0
+   ```
+   
+   And then install using:
+   ```bash
    pip install -r requirements.txt
    ```
 
