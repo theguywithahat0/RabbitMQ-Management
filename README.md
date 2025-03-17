@@ -1,28 +1,27 @@
 # RabbitMQ Queue Management Tools
 
-This repository contains Python utilities for managing RabbitMQ queues using the [Pika](https://pika.readthedocs.io/) library. These tools help simplify common RabbitMQ administration tasks.
+A collection of Python utilities for managing RabbitMQ queues using the [Pika](https://pika.readthedocs.io/) library.
 
 ## Overview
 
-RabbitMQ is a powerful message broker that implements the Advanced Message Queuing Protocol (AMQP). While RabbitMQ provides a management UI, programmatic access is often needed for automation, testing, and maintenance workflows.
+RabbitMQ is a powerful message broker implementing the Advanced Message Queuing Protocol (AMQP). While RabbitMQ provides a management UI, programmatic access is often needed for automation, testing, and maintenance workflows.
 
-This toolkit currently includes:
-- Queue deletion script: Safely remove queues from your RabbitMQ server
+This toolkit includes:
+- **Queue Deletion Tool**: Safely remove queues from your RabbitMQ server
+- **Message Publisher**: Generate and publish test messages to RabbitMQ queues
 
 ## Use Cases
 
 - **Test Environment Cleanup**: Easily clean up test queues after running integration tests
+- **Load Testing**: Generate sample messages with configurable volume and delay
 - **Maintenance Operations**: Programmatically manage queues during system maintenance
 - **DevOps Automation**: Incorporate into CI/CD pipelines for environment management
 - **Troubleshooting**: Quickly reset queues during debugging sessions
 
 ## Prerequisites
 
-- **Python 3.6+**: Ensure you have Python installed. You can download it from [python.org](https://www.python.org/downloads/).
-- **Pika Library**: Install Pika using pip:
-  ```bash
-  pip install pika
-  ```
+- **Python 3.6+**: Available from [python.org](https://www.python.org/downloads/)
+- **Pika Library**: Install with `pip install pika`
 - **RabbitMQ Server**: Access to a RabbitMQ instance with appropriate permissions
 
 ## Installation
@@ -38,38 +37,60 @@ This toolkit currently includes:
    pip install pika
    ```
 
-   Alternatively, you can create a `requirements.txt` file with the following content:
+   Alternatively, create and use a `requirements.txt` file:
    ```
    pika>=1.2.0
    ```
    
-   And then install using:
+   And install with:
    ```bash
    pip install -r requirements.txt
    ```
 
-## Usage
+## Tools
 
 ### Queue Deletion
 
-To delete a RabbitMQ queue:
+Delete a RabbitMQ queue with a simple command:
 
-1. Edit `delete_queue.py` with your connection details and queue name:
-   ```python
-   amqp_url = "amqps://username:password@host/vhost"
-   queue_name = "queue_to_delete"
-   ```
+```bash
+# Set your RabbitMQ connection string
+export AMQP_URL="amqps://username:password@host/vhost"
 
-2. Run the script:
-   ```bash
-   python delete_queue.py
-   ```
+# Run the deletion tool
+python -m tools.delete_queue.run_delete_queue --queue queue_name
+```
+
+### Message Publisher
+
+Generate and publish test messages to a RabbitMQ queue:
+
+```bash
+# Set your RabbitMQ connection string
+export AMQP_URL="amqps://username:password@host/vhost"
+
+# Run the publisher with default settings (100 messages, 0.1s delay)
+python -m tools.rmq_publisher.run_publisher
+
+# Or customize the number of messages and delay
+python -m tools.rmq_publisher.run_publisher --num-messages 500 --delay 0.05
+```
+
+The publisher generates realistic test data for various entity types:
+- Users
+- Bets
+- Games
+- Transactions
+- Sessions
+
+Each message contains randomly generated data appropriate for the entity type, along with metadata such as action type (INSERT, UPDATE, DELETE) and timestamps.
 
 ## Security Considerations
 
-- Store sensitive connection details in environment variables or a secure configuration file
+- Store sensitive connection details in environment variables rather than hardcoding
 - Use TLS connections (amqps://) in production environments
-- Create dedicated users with minimal required permissions
+- Create dedicated RabbitMQ users with minimal required permissions
+- Be cautious when deleting queues in production environments
 
 ## Future Enhancements
 
@@ -78,6 +99,7 @@ To delete a RabbitMQ queue:
 - Batch operations for multiple queues
 - Exchange management
 - User management
+- Message consumption and processing tools
 
 ## Contributing
 
@@ -85,6 +107,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License. The MIT License is a permissive license that allows for reuse with few restrictions. It permits anyone to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software.
-
-While a separate LICENSE file is not yet included in the repository, this software is released under MIT license terms.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
